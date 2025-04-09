@@ -153,3 +153,22 @@ text-wrap: balance;
 margin: 0.5em 0;
 }
 
+section {
+  background-color: oklch(95% 0.05 330);
+  padding: 2em;
+  border-radius: 0.75em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2em;
+}
+
+header a {
+  color: oklch(85% 0.1 330);
+}
+
+section ul li {
+  margin-bottom: 0.5em;
+}
+
+.project {
+  color: oklch(75% 0.1 330);
+}
