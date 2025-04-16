@@ -157,24 +157,23 @@ margin: 0.5em 0;
 }
 
 section {
-  background-color: oklch(95% 0.05 330);
+  background-color: oklch(75% 0.1 330); 
+  color: CanvasText; 
   padding: 2em;
   border-radius: 0.75em;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   margin-bottom: 2em;
 }
 
+
 header a {
-  color: oklch(85% 0.1 330);
+  color: oklch(75% 0.1 330);
 }
 
 section ul li {
   margin-bottom: 0.5em;
 }
 
-.project {
-  color: oklch(75% 0.1 330);
-}
 
 .color-scheme {
   position: absolute;
@@ -187,14 +186,4 @@ section ul li {
   gap: 0.5em;
 }
 
-
-html[style*="color-scheme: dark"] section {
-  background-color: oklch(40% 0.12 330);
-  color: white;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
-}
-
-html[style*="color-scheme: dark"] header a {
-  color: oklch(85% 0.3 330);
-}
 
