@@ -15,31 +15,31 @@
         "title": "Sea-Level Anomaly Detection",
         "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Completed for the National Science Foundation Harnessing the Data Revolution Machine Learning Challenge Hackathon. This project uses a Convolutional Neural Network (CNN) to detect sea-level anomaly events from satellite heat maps across 12 coastal cities, achieving 86% test accuracy."
+        "description": "Completed for the National Science Foundation Harnessing the Data Revolution Machine Learning Challenge Hackathon. This project uses a Convolutional Neural Network (CNN) to detect sea-level anomaly events from satellite heat maps across 12 coastal cities."
     },
     {
-        "title": "Eos reprehenderit harum velit?",
-        "year": "2025",
+        "title": "Cooking Up Insights - Analyzing Recipe Ratings and Preparation Times",
+        "year": "2024",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Quaerat nihil inventore consequatur dignissimos officia voluptas quisquam, rem numquam nesciunt odit sequi exercitationem, nemo ea repellendus hic possimus saepe, eveniet quod labore illo ab expedita minus. Eveniet, necessitatibus veritatis."
+        "description": "Completed for DSC80. This project uses a Scikit-learn pipeline for linear regression, enhancing predictive modeling of cooking times based on recipe features like description length and seasonal trends."
     },
     {
-        "title": "Repellendus atque eum fugit!",
-        "year": "2025",
+        "title": "Image Processing App: Implementing Classes, Inheritance, and a KNN Classifier",
+        "year": "2024",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Voluptatum, cupiditate distinctio? Porro eius inventore sed nostrum ut vitae itaque quis blanditiis ullam, corporis veniam, sint nihil. A magni excepturi ab iusto dolorem modi corrupti ex, reiciendis dolores nihil."
+        "description": "Completed for DSC30. This project is a Python-based image processing application focusing on object-oriented programming principles and includes a function for various image transformations and a KNN classifer to predict image labels."
     },
     {
-        "title": "Obcaecati placeat nulla modi!",
-        "year": "2025",
+        "title": "",
+        "year": "2023",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Omnis deserunt sed iusto ad nisi sit eum obcaecati rerum accusamus laboriosam. Natus libero quos facilis sed laudantium, eveniet beatae voluptas enim, provident cupiditate cum expedita maxime quis dolorem exercitationem?"
     },
     {
-        "title": "Iure ad necessitatibus natus!",
-        "year": "2025",
+        "title": "Data Analysis of Taylor Swift's Discography",
+        "year": "2023",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Quasi corrupti illo totam aut nihil nostrum quae inventore mollitia, soluta molestias distinctio vero ea at tenetur dolorem eveniet ratione, pariatur voluptatem fugit fugiat quidem quo eum magnam? Ipsam, ipsa."
+        "description": "Completed for DSC10. This Python-based data analysis project focuses on exploring lyrical and audio features of Taylor Swift's songs performing exploratory data analysis to uncover trends. "
     },
     {
         "title": "Ut tenetur sunt repudiandae.",

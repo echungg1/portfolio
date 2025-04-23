@@ -136,14 +136,30 @@ grid-row: span 3;
 padding: 1em;
 }
 
-.project h2 {
-margin: 0;
+.projects article {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 1em;
+  border-radius: 0.5em;
 }
 
-.project img {
-width: 100%;
-height: auto;
+.projects article img {
+  max-height: auto;
+  object-fit: cover;
+  width: 100%;
+  border-radius: 0.25em;
 }
+
+.projects article h2,
+.projects article h3,
+.projects article p {
+  margin: 0.5em 0;
+}
+
+
+
 
 h1 {
 font-size: 4em;
