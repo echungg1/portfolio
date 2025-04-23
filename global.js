@@ -131,13 +131,18 @@ export function renderProjects(project, containerElement, headingLevel = 'h2') {
   // write javascript that will allow dynamic heading levels based on previous function
   // Your code will go here
   containerElement.innerHTML = '';
-  for (const project of projects) {
+  for (const p of project) {
     const article = document.createElement('article');
     article.innerHTML = `
-    <h3>${project.title}</h3>
-    <img src="${project.image}" alt="${project.title}">
-    <p>${project.description}</p>
+    <h3>${p.title}</h3>
+    <img src="${p.image}" alt="${p.title}">
+    <p>${p.description}</p>
     `;
     containerElement.appendChild(article);
   }
+}
+
+export async function fetchGitHubData(username) {
+  // return statement here
+  return fetchJSON(`https://api.github.com/users/${username}`);
 }

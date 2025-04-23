@@ -186,4 +186,20 @@ section ul li {
   gap: 0.5em;
 }
 
+#profile-stats dl {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Four equal columns */
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+#profile-stats dt {
+  grid-row: 1; /* Force all <dt>s into the first row */
+  font-weight: bold;
+}
+
+#profile-stats dd {
+  grid-row: 2; /* Force all <dd>s into the second row */
+  margin: 0;
+}
 
