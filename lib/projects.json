@@ -3,7 +3,7 @@
         "title": "Harmful Algal Blooms Forecasting",
         "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Completed as part of IEEE-Eta Kappa-Nu's projects program. "
+        "description": "Completed as part of IEEE-Eta Kappa-Nu's projects program. This project aims to forecast harmful algal blooms using a zeroshot foundational model based on the T5 architecture."
     },
     {
         "title": "Dance Battle AI",
@@ -12,10 +12,10 @@
         "description": "Completed for the Data Science Student Society Hackathon (DataHacks). This project is a real-time multiplayer, full-stack web app where two players dance along to the same reference choreography and the one who matches it best wins!"
     },
     {
-        "title": "Pariatur eos veniam ipsum!",
+        "title": "Sea-Level Anomaly Detection",
         "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Odit aperiam dolore placeat eum deserunt maxime modi nesciunt vitae amet reprehenderit? Tenetur quod repellat non necessitatibus odio harum cumque, minus earum voluptatem magnam tempora alias ipsam quasi, corporis facere?"
+        "description": "Completed for the National Science Foundation Harnessing the Data Revolution Machine Learning Challenge Hackathon. This project uses a Convolutional Neural Network (CNN) to detect sea-level anomaly events from satellite heat maps across 12 coastal cities, achieving 86% test accuracy."
     },
     {
         "title": "Eos reprehenderit harum velit?",
