@@ -6,10 +6,22 @@
         "description": "Completed as part of IEEE-Eta Kappa-Nu's projects program. This project aims to forecast harmful algal blooms using a zeroshot foundational model based on the T5 architecture."
     },
     {
+        "title": "The Price of Health",
+        "year": "2025",
+        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+        "description": "Completed for DSC106. This project effectively visualizes the difference in food processing levels and price between grocery stores."
+    },
+    {
         "title": "Dance Battle AI",
         "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Completed for the Data Science Student Society Hackathon (DataHacks). This project is a real-time multiplayer, full-stack web app where two players dance along to the same reference choreography and the one who matches it best wins!"
+    },
+    {
+        "title": "Portfolio",
+        "year": "2025",
+        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+        "description": "Completed for DSC106. This project is a personal web site that was made utilizing JS, HTML, and CSS."
     },
     {
         "title": "Sea-Level Anomaly Detection",
@@ -30,10 +42,10 @@
         "description": "Completed for DSC30. This project is a Python-based image processing application focusing on object-oriented programming principles and includes a function for various image transformations and a KNN classifer to predict image labels."
     },
     {
-        "title": "",
+        "title": "Meteorite Hypothesis Testing",
         "year": "2023",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Omnis deserunt sed iusto ad nisi sit eum obcaecati rerum accusamus laboriosam. Natus libero quos facilis sed laudantium, eveniet beatae voluptas enim, provident cupiditate cum expedita maxime quis dolorem exercitationem?"
+        "description": "Completed for DSC10. This project visualizes meteorite data and performs hypothesis testing."
     },
     {
         "title": "Data Analysis of Taylor Swift's Discography",
@@ -42,33 +54,21 @@
         "description": "Completed for DSC10. This Python-based data analysis project focuses on exploring lyrical and audio features of Taylor Swift's songs performing exploratory data analysis to uncover trends. "
     },
     {
-        "title": "Ut tenetur sunt repudiandae.",
-        "year": "2025",
+        "title": "Movie Recommender",
+        "year": "2022",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Quis sint eum sit aut officia vel praesentium doloribus ab numquam soluta distinctio ut ratione, esse totam expedita voluptatum adipisci! Nemo nostrum ut fugiat. Omnis aut perferendis fugit esse? Accusamus."
+        "description": "This project builds a personalized movie recommender system using collaborative filtering to suggest films based on user preferences and viewing history."
     },
     {
-        "title": "Similique consequuntur cupiditate facere.",
-        "year": "2025",
+        "title": "Spam Email Classifier",
+        "year": "2021",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Pariatur harum neque excepturi, vitae nesciunt ipsum earum! Est ipsa quaerat rem vitae inventore natus iusto consectetur atque itaque deserunt, praesentium sed suscipit reiciendis doloremque. Qui, debitis modi! Autem, numquam."
+        "description": "This project trains a Naive Bayes model to classify spam emails based on message content and metadata."
     },
     {
-        "title": "Est reprehenderit quas explicabo!",
-        "year": "2025",
+        "title": "House Price Predictor",
+        "year": "2020",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Explicabo, optio maxime est tempora provident nam dolorem, temporibus voluptas eaque nobis fugit soluta deleniti culpa totam quisquam nemo vero repellat hic dolorum fugiat suscipit commodi ipsa? Delectus, asperiores officiis."
-    },
-    {
-        "title": "Autem assumenda ut corporis.",
-        "year": "2025",
-        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Molestias est dolorem nesciunt qui ducimus dignissimos nobis perferendis. Recusandae, soluta rerum debitis magnam vitae amet doloremque neque consequatur unde consectetur maiores alias repellat odio repudiandae officia, nulla esse provident."
-    },
-    {
-        "title": "Sed deleniti repudiandae maxime.",
-        "year": "2025",
-        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Exercitationem veniam tempora fugit. Nesciunt obcaecati velit recusandae ipsum aperiam veniam praesentium cumque ut laudantium iste cum aliquam rerum alias, quo ipsam error exercitationem dolorem a consectetur tempore? Incidunt, voluptates!"
+        "description": "This project predicts house prices using multiple regression on real estate features like size, location, and condition."
     }
 ]
