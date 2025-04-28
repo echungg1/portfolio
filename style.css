@@ -6,6 +6,7 @@ body {
   max-width: 100ch;
   margin-inline: max(1em, (100% - 100ch) / 2);;
   padding: 4ch;
+
 }
 
 img {
@@ -211,3 +212,45 @@ section ul li {
   margin: 0;
 }
 
+#projects-pie-plot {
+  max-width: 20em;
+  margin-block: 2em;
+
+  overflow: visible;
+}
+
+.legend {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
+  gap: 1em;
+  border: 1px solid oklch(50% 0.2 270 / 30%);
+  padding: 1em;
+  margin: 0;
+  list-style: none;
+  flex-shrink: 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.9em;
+}
+
+.legend-item .swatch {
+  width: 1em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: var(--color);
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+  margin-bottom: 2em;
+  flex-wrap: nowrap;
+  min-width: 300px;
+  
+}

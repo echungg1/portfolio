@@ -136,8 +136,16 @@ export function renderProjects(project, containerElement, headingLevel = 'h2') {
     article.innerHTML = `
     <${headingLevel}>${p.title}</${headingLevel}>
     <img src="${p.image}" alt="${p.title}">
-    <p>${p.description}</p>
     `;
+    const textWrapper = document.createElement('div');
+    const desc = document.createElement('p');
+    desc.textContent = p.description || 'No description available.';
+    textWrapper.appendChild(desc);
+    const year = document.createElement('p');
+    year.className = 'project-year';
+    year.textContent = p.year ? `c. ${p.year}` : 'Year unknown';
+    textWrapper.appendChild(year);
+    article.appendChild(textWrapper);
     containerElement.appendChild(article);
   }
 }
