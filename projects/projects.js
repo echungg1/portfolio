@@ -47,6 +47,8 @@ document.querySelector('.projects-title').textContent = `${projects.length} Proj
 
 let query = '';
 let searchInput = document.querySelector('.searchBar');
+let selectedIndex = -1;
+
 
 // Refactor all plotting into one function
 function renderPieChart(projectsGiven) {
@@ -74,14 +76,41 @@ function renderPieChart(projectsGiven) {
   legend.selectAll('li').remove();
   let colors = d3.scaleOrdinal(d3.schemeTableau10);
   // update paths and legends, refer to steps 1.4 and 2.2
-  newArcs.forEach((arc, idx) => {
-    svg.append('path')
+
+  newArcs.forEach((arc, i) => {
+    svg
+      .append('path')
       .attr('d', arc)
-      .attr('fill', colors(idx));
-  });
+      .attr('fill', colors(i))
+      .on('click', () => {
+        selectedIndex = selectedIndex === i ? -1 : i;
+        svg
+        .selectAll('path')
+        .attr('class', (_, idx) => (
+          idx === selectedIndex ? 'legend-item selected' : 'legend-item'
+        ));
+      legend.selectAll('li')
+        .attr('class', (_, idx) => (
+          idx === selectedIndex ? 'legend-item selected' : 'legend-item'
+        ));
+        // ADD FILTERED HERE AND CHANGE BELOW TO FILTERED
+        if (selectedIndex === -1) {
+          renderProjects(projects, projectsContainer, 'h2');
+        } else {
+          renderProjects(
+            projects.filter(p => p.year === newData[selectedIndex].label),
+            projectsContainer,
+            'h2'
+          );
+        }
+      });
+    });
+
+
+
   newData.forEach((d, idx) => {
     legend.append('li')
-      .attr('class', 'legend-item')
+      .attr('class', idx === selectedIndex ? 'legend-item selected' : 'legend-item')
       .attr('style', `--color: ${colors(idx)}`)
       .html(`<span class="swatch"></span>${d.label}`);
   });
@@ -101,7 +130,4 @@ searchInput.addEventListener('input', (event) => {
   renderProjects(filteredProjects, projectsContainer, 'h2');
   renderPieChart(filteredProjects);
 });
-
-
-
 
