@@ -93,12 +93,15 @@ function renderPieChart(projectsGiven) {
         .attr('class', (_, idx) => (
           idx === selectedIndex ? 'legend-item selected' : 'legend-item'
         ));
-        // ADD FILTERED HERE AND CHANGE BELOW TO FILTERED
+        let filteredProjects = projects.filter((project) => {
+          let values = Object.values(project).join('\n').toLowerCase();
+          return values.includes(query.toLowerCase());
+        });
         if (selectedIndex === -1) {
-          renderProjects(projects, projectsContainer, 'h2');
+          renderProjects(filteredProjects, projectsContainer, 'h2');
         } else {
           renderProjects(
-            projects.filter(p => p.year === newData[selectedIndex].label),
+            filteredProjects.filter(p => p.year === newData[selectedIndex].label),
             projectsContainer,
             'h2'
           );
