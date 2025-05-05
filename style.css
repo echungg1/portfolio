@@ -276,4 +276,26 @@ path {
   }
 }
  
- 
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+  gap: 2em;
+  margin-block: 2em;
+}
+
+.stats dt {
+  font-size: 0.9em;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: gray;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.stats dd {
+  font-size: 1.7em;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+  word-break: break-word; /* optional, prevents overflow if ever needed */
+}
