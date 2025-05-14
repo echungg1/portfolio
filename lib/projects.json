@@ -1,5 +1,12 @@
 [
     {
+        "title": "Bikewatching",
+        "year": "2025",
+        "image": "/images/bikewatching.png",
+        "url": "https://echungg1.github.io/bikewatching/",
+        "description": "This project visualizes Boston’s Bluebikes traffic using an interactive Mapbox map and D3.js. Each station is represented by a circle whose size reflects total traffic volume and whose color shows the balance between departures and arrivals throughout the day."
+    },
+    {
         "title": "Harmful Algal Blooms Forecasting",
         "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",

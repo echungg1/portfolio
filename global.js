@@ -127,28 +127,81 @@ export async function fetchJSON(url) {
   }
 }
 
-export function renderProjects(project, containerElement, headingLevel = 'h2') {
-  // write javascript that will allow dynamic heading levels based on previous function
-  // Your code will go here
+// export function renderProjects(project, containerElement, headingLevel = 'h2') {
+//   // write javascript that will allow dynamic heading levels based on previous function
+//   // Your code will go here
+//   containerElement.innerHTML = '';
+//   for (const p of project) {
+//     const article = document.createElement('article');
+//     article.innerHTML = `
+//     <${headingLevel}>${p.title}</${headingLevel}>
+//     <img src="${p.image}" alt="${p.title}">
+//     `;
+
+//     if (p.url) {
+//       const link = document.createElement('a');
+//       link.href = p.url;
+//       link.textContent = p.title;
+//       link.target = '_blank';
+//       link.rel = 'noopener noreferrer';
+//       heading.appendChild(link);
+//     } else {
+//       heading.textContent = p.title;
+//     }
+
+
+//     const textWrapper = document.createElement('div');
+//     const desc = document.createElement('p');
+//     desc.textContent = p.description || 'No description available.';
+//     textWrapper.appendChild(desc);
+//     const year = document.createElement('p');
+//     year.className = 'project-year';
+//     year.textContent = p.year ? `c. ${p.year}` : 'Year unknown';
+//     textWrapper.appendChild(year);
+//     article.appendChild(textWrapper);
+//     containerElement.appendChild(article);
+//   }
+// }
+
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
   containerElement.innerHTML = '';
-  for (const p of project) {
+
+  for (const p of projects) {
     const article = document.createElement('article');
-    article.innerHTML = `
-    <${headingLevel}>${p.title}</${headingLevel}>
-    <img src="${p.image}" alt="${p.title}">
-    `;
+
+    // Create a heading element dynamically
+    const heading = document.createElement(headingLevel);
+    if (p.url) {
+      const link = document.createElement('a');
+      link.href = p.url;
+      link.textContent = p.title;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      heading.appendChild(link);
+    } else {
+      heading.textContent = p.title;
+    }
+
+    // Create image
+    const img = document.createElement('img');
+    img.src = p.image;
+    img.alt = p.title;
+
+    // Create description and year
     const textWrapper = document.createElement('div');
     const desc = document.createElement('p');
     desc.textContent = p.description || 'No description available.';
-    textWrapper.appendChild(desc);
     const year = document.createElement('p');
     year.className = 'project-year';
     year.textContent = p.year ? `c. ${p.year}` : 'Year unknown';
-    textWrapper.appendChild(year);
-    article.appendChild(textWrapper);
+
+    // Assemble and append
+    textWrapper.append(desc, year);
+    article.append(heading, img, textWrapper);
     containerElement.appendChild(article);
   }
 }
+
 
 export async function fetchGitHubData(username) {
   // return statement here
