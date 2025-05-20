@@ -351,6 +351,10 @@ circle {
   transition: 200ms;
   transform-origin: center;
   transform-box: fill-box;
+  @starting-style {
+    r: 0;
+  }
+  transition: all 200ms, r calc(var(--r) * 100ms);
 }
 
 circle:hover {
@@ -373,4 +377,20 @@ circle:hover {
 
 circle.selected {
   fill: #ff6b6b;
+}
+
+#timeline-ui {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 1em;
+}
+
+#timeline-ui time {
+  margin-left: auto;
+  font-weight: bold;
+}
+
+#time-slider {
+  width: 100%;       
+  max-width: 600px; 
 }

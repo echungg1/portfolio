@@ -15,6 +15,22 @@
     <div id="stats"></div>
 
     <h2>Commits by time of day</h2>
+    <div id="slider-wrapper" style="display: flex; align-items: baseline; gap: 1em; margin-bottom: 1em;">
+      <label for="commitRange" style="flex: 1;">
+        Show commits until:
+        <input
+          type="range"
+          id="commitRange"
+          min="0"
+          max="100"
+          value="100"
+          style="width: 100%;"
+        />
+      </label>
+      <time id="selectedTime" style="margin-left: auto;"></time>
+    </div>
+    
+    
     <div id="chart"></div>
 
     <dl id="commit-tooltip" class="info tooltip" hidden>

@@ -1,6 +1,10 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
 let xScale, yScale;
+let commitProgress = 100;
+let timeScale;
+let filteredCommits = [];
+
 
 async function loadData() {
     const data = await d3.csv('loc.csv', (row) => ({
@@ -49,7 +53,14 @@ async function loadData() {
       });
   }
 
+  function filterCommitsByTime() {
+    const commitMaxTime = timeScale.invert(commitProgress);
+    filteredCommits = commits.filter((d) => d.datetime <= commitMaxTime);
+  }
+
   function renderCommitInfo(data, commits) {
+    d3.select('#stats').selectAll('dl.stats').remove();
+
     // Create the dl element
     const dl = d3.select('#stats').append('dl').attr('class', 'stats');
   
@@ -95,6 +106,22 @@ async function loadData() {
     
   }
 
+  function updateTimeDisplay() {
+    commitProgress = Number(commitRange.value);
+  
+    const commitMaxTime = timeScale.invert(commitProgress);
+  
+    selectedTime.textContent = commitMaxTime.toLocaleString('en', {
+      dateStyle: 'long',
+      timeStyle: 'short',
+    });
+  
+    filterCommitsByTime();
+    updateScatterPlot(data, filteredCommits);
+    renderCommitInfo(data, filteredCommits);
+  }
+  
+
   function updateTooltipPosition(event) {
     const tooltip = document.getElementById('commit-tooltip');
     tooltip.style.left = `${event.clientX}px`;
@@ -128,9 +155,13 @@ async function loadData() {
     return selectedCommits;
   }
 
-  function renderScatterPlot(data, commits) {
+  // function renderScatterPlot(data, commits) {
+  function updateScatterPlot(data, filteredCommits) {
     const width = 1000;
     const height = 600;
+
+    d3.select('svg').remove();
+
     const svg = d3.select('#chart')
       .append('svg')
       .attr('viewBox', `0 0 ${width} ${height}`)
@@ -145,9 +176,10 @@ async function loadData() {
       width: width - margin.left - margin.right,
       height: height - margin.top - margin.bottom,
     };
+
   
     xScale = d3.scaleTime()
-      .domain(d3.extent(commits, (d) => d.datetime))
+      .domain(d3.extent(filteredCommits, (d) => d.datetime))
       .range([usableArea.left, usableArea.right])
       .nice();
   
@@ -155,7 +187,7 @@ async function loadData() {
       .domain([0, 24])
       .range([usableArea.bottom, usableArea.top]);
   
-    const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
+    const [minLines, maxLines] = d3.extent(filteredCommits, (d) => d.totalLines);
     const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([5, 35]);
   
     const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
@@ -174,11 +206,17 @@ async function loadData() {
       .attr('transform', `translate(${usableArea.left}, 0)`)
       .call(d3.axisLeft(yScale).tickFormat((d) => String(d % 24).padStart(2, '0') + ':00'));
   
-    // Add circles
+      // svg.selectAll('g').remove();
+      // Add circles
     const dots = svg.append('g').attr('class', 'dots');
+
+    // const [minLines, maxLines] = d3.extent(filteredCommits, (d) => d.totalLines);
+    // const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([5, 35]);
+
+    dots.selectAll('circle').remove();
   
     dots.selectAll('circle')
-      .data(sortedCommits)
+      .data(filteredCommits)
       .join('circle')
       .attr('cx', d => xScale(d.datetime))
       .attr('cy', d => yScale(d.hourFrac))
@@ -220,8 +258,37 @@ async function loadData() {
 
    let data = await loadData();
    let commits = processCommits(data);
+
+  // Set up the time scale
+  timeScale = d3.scaleTime(
+    [d3.min(commits, (d) => d.datetime), d3.max(commits, (d) => d.datetime)],
+    [0, 100]
+  );
+
+  const commitRange = document.getElementById('commitRange');
+  const selectedTime = document.getElementById('selectedTime');
+  
+  commitRange.value = commitProgress;
+  
+  commitRange.addEventListener('input', updateTimeDisplay);
+
+  updateTimeDisplay();
+  // Get current selected time from slider value
+  let commitMaxTime = timeScale.invert(commitProgress);
+
+
+
+
+
+  // Set the displayed time in the <time> element
+  document.getElementById('selectedTime').textContent = commitMaxTime.toLocaleString('en', {
+    dateStyle: 'long',
+    timeStyle: 'short',
+  });
+
+  
    
-   renderScatterPlot(data, commits);
+   updateScatterPlot(data, commits);
    renderCommitInfo(data, commits);
 
    function renderTooltipContent(commit) {
@@ -282,7 +349,9 @@ async function loadData() {
     }
   }
 
-  
+
+
 
   
+
 
