@@ -4,6 +4,7 @@ let xScale, yScale;
 let commitProgress = 100;
 let timeScale;
 let filteredCommits = [];
+let fileTypeColors = d3.scaleOrdinal(d3.schemeTableau10);
 
 
 async function loadData() {
@@ -52,7 +53,7 @@ async function loadData() {
         return ret;
       });
   }
-
+ 
   function filterCommitsByTime() {
     const commitMaxTime = timeScale.invert(commitProgress);
     filteredCommits = commits.filter((d) => d.datetime <= commitMaxTime);
@@ -81,23 +82,23 @@ async function loadData() {
     dl.append('dt').text('Longest line length (chars)');
     dl.append('dd').text(maxLineLength);
 
-    const workByPeriod = d3.rollups(
-        data,
-        (v) => v.length,
-        (d) => new Date(d.datetime).toLocaleString('en', { dayPeriod: 'short' }),
-      );
-    const maxPeriod = d3.greatest(workByPeriod, (d) => d[1])?.[0];
-    dl.append('dt').text('Time of day most work is done');
-    dl.append('dd').text(maxPeriod);
+    const fileCount = d3.rollups(
+      data,
+      v => v.length,
+      d => d.file
+    ).length;
+    dl.append('dt').text('Number of files');
+    dl.append('dd').text(fileCount);
 
-    const workByDay = d3.rollups(
-        data,
-        v => v.length,
-        d => new Date(d.datetime).toLocaleDateString('en-US', { weekday: 'long' })
-      );
-    const maxDay = d3.greatest(workByDay, d => d[1])?.[0];
-    dl.append('dt').text('Day of week most work is done');
-    dl.append('dd').text(maxDay);
+    const fileLengths = d3.rollups(
+      data,
+      v => v.length,
+      d => d.file
+    );
+    const longestFile = d3.greatest(fileLengths, d => d[1]);
+    dl.append('dt').text('Longest file (lines)');
+    dl.append('dd').text(`${longestFile[1]}`);
+    
   }
 
   function createBrushSelector(svg) {
@@ -117,9 +118,40 @@ async function loadData() {
     });
   
     filterCommitsByTime();
+
+    let lines = filteredCommits.flatMap((d) => d.lines);
+    let files = [];
+    files = d3
+      .groups(lines, (d) => d.file)
+      .map(([name, lines]) => {
+        return { name, lines };
+      });
+    files = d3.sort(files, (d) => -d.lines.length);
     updateScatterPlot(data, filteredCommits);
-    renderCommitInfo(data, filteredCommits);
-  }
+    renderCommitInfo(lines, filteredCommits);
+
+    d3.select('.files').selectAll('div').remove();
+
+    let filesContainer = d3.select('.files')
+      .selectAll('div')
+      .data(files)
+      .enter()
+      .append('div');
+
+    filesContainer.append('dt')
+      .html(d => `
+        <code>${d.name}</code>
+        <small>${d.lines.length} lines</small>
+      `);
+
+    filesContainer.append('dd')
+      .selectAll('div')
+      .data(d => d.lines)
+      .join('div')
+      .attr('class', 'line')
+      .style('background', d => fileTypeColors(d.type));
+    
+      }
   
 
   function updateTooltipPosition(event) {
@@ -186,11 +218,12 @@ async function loadData() {
     yScale = d3.scaleLinear()
       .domain([0, 24])
       .range([usableArea.bottom, usableArea.top]);
+
   
     const [minLines, maxLines] = d3.extent(filteredCommits, (d) => d.totalLines);
     const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([5, 35]);
   
-    const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
+    const sortedCommits = d3.sort(filteredCommits, (d) => -d.totalLines);
   
     // Add gridlines BEFORE dots
     svg.append('g')
@@ -205,13 +238,8 @@ async function loadData() {
     svg.append('g')
       .attr('transform', `translate(${usableArea.left}, 0)`)
       .call(d3.axisLeft(yScale).tickFormat((d) => String(d % 24).padStart(2, '0') + ':00'));
-  
-      // svg.selectAll('g').remove();
-      // Add circles
-    const dots = svg.append('g').attr('class', 'dots');
 
-    // const [minLines, maxLines] = d3.extent(filteredCommits, (d) => d.totalLines);
-    // const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([5, 35]);
+    const dots = svg.append('g').attr('class', 'dots');
 
     dots.selectAll('circle').remove();
   
@@ -256,9 +284,83 @@ async function loadData() {
       }
   }
 
-   let data = await loadData();
-   let commits = processCommits(data);
+  let data = await loadData();
+  let commits = d3.sort(processCommits(data), d => d.datetime);
+  filteredCommits = commits;
 
+  updateScatterPlot(data, commits);
+  displayCommitFiles();
+
+  renderCommitInfo(data, commits);
+
+  let NUM_ITEMS = commits.length; // Ideally, let this value be the length of your commit history
+  let ITEM_HEIGHT = 190; // Feel free to change
+  let VISIBLE_COUNT = 150; // Feel free to change as well
+  let totalHeight = (NUM_ITEMS - 1) * ITEM_HEIGHT;
+  const scrollContainer = d3.select('#scroll-container');
+  const spacer = d3.select('#spacer');
+  spacer.style('height', `${totalHeight}px`);
+  const itemsContainer = d3.select('#items-container');
+
+  function renderItems(startIndex) {
+    itemsContainer.selectAll('div').remove();
+  
+    const endIndex = Math.min(startIndex + VISIBLE_COUNT, commits.length);
+    const newCommitSlice = commits.slice(0, endIndex);
+    
+
+
+    // updateScatterPlot(data, newCommitSlice);
+    filteredCommits = newCommitSlice;
+
+  updateScatterPlot(data, filteredCommits);
+
+  renderCommitInfo(
+    filteredCommits.flatMap(d => d.lines),
+    filteredCommits
+  );
+
+
+  
+    itemsContainer.selectAll('div')
+      .data(newCommitSlice)
+      .enter()
+      .append('div')
+      .attr('class', 'item')
+      .html((d, i) => {
+        const date = d.datetime.toLocaleString("en", {
+          dateStyle: "full",
+          timeStyle: "short"
+        });
+        const fileCount = d3.rollups(d.lines, D => D.length, d => d.file).length;
+        const linkText = i === 0
+          ? 'my initial commit'
+          : `an update to refine functionality`;
+      
+        return `
+          <p>
+            On ${date}, I made
+            <a href="${d.url}" target="_blank">${linkText}</a>.
+            This change involved ${d.totalLines} lines across ${fileCount} file${fileCount !== 1 ? 's' : ''}, 
+            aiming to improve structure, clarity, or performance. Each revision brought the project closer to stability.
+          </p>
+        `;
+      })
+      
+  }
+
+
+  scrollContainer.on('scroll', () => {
+    const scrollTop = scrollContainer.property('scrollTop');
+    let startIndex = Math.floor(scrollTop / ITEM_HEIGHT);
+    startIndex = Math.max(
+      0,
+      Math.min(startIndex, commits.length - VISIBLE_COUNT),
+    );
+    renderItems(startIndex);
+    
+  });
+  
   // Set up the time scale
   timeScale = d3.scaleTime(
     [d3.min(commits, (d) => d.datetime), d3.max(commits, (d) => d.datetime)],
@@ -273,23 +375,9 @@ async function loadData() {
   commitRange.addEventListener('input', updateTimeDisplay);
 
   updateTimeDisplay();
-  // Get current selected time from slider value
-  let commitMaxTime = timeScale.invert(commitProgress);
 
-
-
-
-
-  // Set the displayed time in the <time> element
-  document.getElementById('selectedTime').textContent = commitMaxTime.toLocaleString('en', {
-    dateStyle: 'long',
-    timeStyle: 'short',
-  });
-
-  
    
-   updateScatterPlot(data, commits);
-   renderCommitInfo(data, commits);
+
 
    function renderTooltipContent(commit) {
     const link = document.getElementById('commit-link');
@@ -350,8 +438,79 @@ async function loadData() {
   }
 
 
-
+  function displayCommitFiles() {
+    const lines = filteredCommits.flatMap((d) => d.lines);
+    let fileTypeColors = d3.scaleOrdinal(d3.schemeTableau10);
+    let files = d3
+      .groups(lines, (d) => d.file)
+      .map(([name, lines]) => {
+        return { name, lines };
+      });
+    files = d3.sort(files, (d) => -d.lines.length);
+    d3.select('.files').selectAll('div').remove();
+    let filesContainer = d3
+      .select('.files')
+      .selectAll('div')
+      .data(files)
+      .enter()
+      .append('div');
+    filesContainer
+      .append('dt')
+      .html(
+        (d) => `<code>${d.name}</code> <small>${d.lines.length} lines</small>`,
+      );
+    filesContainer
+      .append('dd')
+      .selectAll('div')
+      .data((d) => d.lines)
+      .enter()
+      .append('div')
+      .attr('class', 'line')
+      .style('background', (d) => fileTypeColors(d.type));
+  }
 
   
 
+  const fileScrollContainer = d3.select('#file-scroll-container');
+  const fileSpacer = d3.select('#file-spacer');
+  const fileItemsContainer = d3.select('#file-items-container');
+  
+  const FILE_ITEM_HEIGHT = 60;
+  const FILE_VISIBLE_COUNT = 20;
+  const fileTotalHeight = (commits.length - 1) * FILE_ITEM_HEIGHT;
+  
+  fileSpacer.style('height', `${fileTotalHeight}px`);
+  
+  fileScrollContainer.on('scroll', () => {
+    const scrollTop = fileScrollContainer.property('scrollTop');
+    let startIndex = Math.floor(scrollTop / FILE_ITEM_HEIGHT);
+    startIndex = Math.max(0, Math.min(startIndex, commits.length - FILE_VISIBLE_COUNT));
+    renderFileItems(startIndex);
+  });
 
+  function renderFileItems(startIndex) {
+    fileItemsContainer.selectAll('div').remove();
+  
+    const endIndex = Math.min(startIndex + FILE_VISIBLE_COUNT, commits.length);
+    const fileCommitSlice = commits.slice(0, endIndex);
+  
+    filteredCommits = fileCommitSlice;
+    displayCommitFiles();
+
+    fileItemsContainer.selectAll('div')
+      .data(fileCommitSlice)
+      .enter()
+      .append('div')
+      .attr('class', 'file-item')
+      .html((d, i) => {
+        const fileCount = d3.rollups(d.lines, D => D.length, d => d.file).length;
+        return `
+          <p>
+            During commit <code>${d.id.slice(0, 7)}</code>, I modified ${fileCount} file${fileCount !== 1 ? 's' : ''},
+            refining structure and adding logic.
+          </p>
+        `;
+      });
+  }
+  
+  
